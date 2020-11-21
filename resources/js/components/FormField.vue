@@ -52,7 +52,7 @@
           :large-screen="largeScreen"
           v-on:data="interval.data = $event"
           v-on:hours="interval.hours = $event"
-          v-on:delete="removeTheInterval"
+          v-on:delete="removeTheInterval(day, key)"
         />
       </div>  
     </template>
@@ -99,7 +99,11 @@ export default {
        * Fill the given FormData object with the field's internal value.
        */
       fill(formData) { 
-          formData.append(this.field.attribute, JSON.stringify(this.value)) 
+        var value = _.mapValues(this.value, (intervals, day) => { 
+          return intervals.filter(interval => this.isValidInterval(day, interval.data))
+        })   
+
+        formData.append(this.field.attribute, JSON.stringify(value)) 
       },  
 
       toggle(day) {  

@@ -16,7 +16,7 @@
         :readonly="editable" 
         class="w-full ml-2 form-control form-input form-input-bordered" 
         :placeholder="__('Label')"
-        @input="$emit('data', $event)"
+        @input="$emit('data', $event.target.value)"
       />
     </div> 
 

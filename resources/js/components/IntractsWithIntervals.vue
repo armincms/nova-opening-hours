@@ -41,10 +41,8 @@ export default {
       this.$set(this.value, day, current) 
     },  
 
-    removeTheInterval(day, interval) {  
-    	var intervals = _.pull(this.getDayIntervals(day), interval)   
-
-    	this.$set(this.value, day, intervals); 
+    removeTheInterval(day, interval) {   
+    	this.$set(this.value, day, this.getDayIntervals(day).filter((day, index) => index !== interval)); 
     },
   },
 

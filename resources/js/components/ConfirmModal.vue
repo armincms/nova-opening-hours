@@ -10,8 +10,7 @@
         <div class="p-8">
           <heading :level="2" class="mb-6">{{ __('Delete Resource') }}</heading>
           <p class="text-80 leading-normal">{{ __('Are you sure you want to run this action?') }}</p>
-        </div>
-        {{ data }}
+        </div> 
       </slot>
 
       <div class="bg-30 px-6 py-3 flex">
