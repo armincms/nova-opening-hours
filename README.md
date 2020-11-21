@@ -64,3 +64,7 @@ This package stores the opening hours in the following format:
           ]
         ],
     ];
+    
+    
+            
+<img src="/opening-hours.gif" width="100%" />
