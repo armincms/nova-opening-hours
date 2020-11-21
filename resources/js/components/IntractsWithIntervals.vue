@@ -1,19 +1,21 @@
 <script> 
 export default {  
   data: () => ({
+    closed: [],
   	navigation: null, 
-  	removeInterval: false,
-  }), 
+  	removeInterval: false, 
+    value: {},
+  }),  
 
   methods: {  
     getDayIntervals(day) { 
-      var intervals = this.value[day] ? this.value[day] : []
+      var intervals = this.value[day] ? this.value[day] : [] 
 
       return intervals.filter(interval => this.isValidInterval(day, interval.data))
     },
 
     isClosed(day) {
-      return this.getDayIntervals(day).length == 0; 
+      return this.closed.includes(day) 
     },
 
     isValidInterval(day, data) {
@@ -43,6 +45,12 @@ export default {
     	var intervals = _.pull(this.getDayIntervals(day), interval)   
 
     	this.$set(this.value, day, intervals); 
+    },
+  },
+
+  watch: {
+    value: function() { 
+      this.closed = this.field.days.filter((day) =>  this.getDayIntervals(day).length < 1) 
     }
   }
 

@@ -5,7 +5,7 @@
         @navigate="navigation = $event"
         :active="navigation"
         :days="field.days" 
-        :closed="this.field.days.filter(day => this.isClosed(day))"  
+        :closed="closed"  
         :editing=false
       /> 
 
@@ -44,8 +44,7 @@ export default {
   props: ['resource', 'resourceName', 'resourceId', 'field'],
 
   data: () => ({
-  	navigation: null, 
-    value: {} 
+  	navigation: null
   }),
 
   mounted() {

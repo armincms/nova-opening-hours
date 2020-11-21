@@ -8,10 +8,7 @@
     >
       <span role=button @click="navigate(day)">{{ 
         label(day)
-      }}</span> 
-      <span role=button v-if="editing" class="my-4 text-danger" :class="{'text-success': isClosed(day)}" @click="toggle(day)">{{ 
-        isClosed(day) ? (largeScreen ? __('Opening') : '+') : (largeScreen ? __('Close') : '-') 
-      }}</span>  
+      }}</span>   
     </h4>
   </div>
 </template>

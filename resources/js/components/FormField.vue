@@ -16,26 +16,43 @@
         v-if="navigation == day"
         v-for="day in field.days"
         :key="day"
-      >     
-        <div class="flex mb-2" v-if="! isClosed(day) && ! isRestricted(day)">
-          <div class="flex w-full ml-2" v-if="largeScreen">
-            <a role=button @click="addInterval(day)" class="inline-block text-primary pt-2 leading-tight">{{
-              __('Add New Item') 
-            }}</a> 
-          </div>
+      >       
+        <div class="flex border-t border-30 p-4">
+          <span class="btn px-4 py-2">{{ __(titleCase(day)) }}:</span>
+
+          <span 
+            role=button 
+            class="btn-outline btn-sm leading-loose" 
+            :class="[
+              isClosed(day) 
+                ? 'text-success hover:text-success-dark border-success hover:border-success-dark'
+                : 'text-danger hover:text-danger-dark border-danger hover:border-danger-dark'
+            ]" 
+            @click="toggle(day)"
+          >{{ 
+            isClosed(day) ? (largeScreen ? __('Opening') : '+') : (largeScreen ? __('Close') : '-') 
+          }}</span>  
+
+            <span
+              role=button 
+              @click="addInterval(day)" 
+              v-if="! isRestricted(day) && ! isClosed(day)"
+              class="ml-2 btn-outline btn-sm leading-loose text-success hover:text-success-dark border-success hover:border-success-dark"
+            >{{
+              __('Add') 
+            }}</span> 
         </div>
 
         <interval 
           v-for="(interval, key) in getDayIntervals(day)"
-          v-if="! isClosed(day)"
-          :key="key" 
-          :day="day"
-          :interval="interval" 
-          :restricted="isRestricted(day)"
-          :placeholder="isRestricted(day) ? getRestrictions(day)[interval.data] : __('Label')"
+          :key="key"  
+          :hours="interval.hours"
+          :data="isRestricted(day) ? getRestrictions(day)[interval.data] : interval.data" 
+          :editable="isRestricted(day)" 
           :large-screen="largeScreen"
-          @input="interval.hours = $event"
-          @delete="removeTheInterval"
+          v-on:data="interval.data = $event"
+          v-on:hours="interval.hours = $event"
+          v-on:delete="removeTheInterval"
         />
       </div>  
     </template>
@@ -58,13 +75,10 @@ export default {
 
   data: () => ({  
     navigation: null,
-    history: {},
-    closed: [] 
+    history: {} 
   }),
 
   mounted() {       
-    this.closed = this.field.days.filter((day) => this.isClosed(day)) 
-
     this.field.days.forEach(day => {   
       Object.keys(this.getRestrictions(day))
                 .filter(restriction => ! this.isClosed(day) && ! this.existsRestriction(day, restriction))
@@ -126,6 +140,10 @@ export default {
           return interval.data === restriction
         }) != undefined
       }, 
+
+      titleCase(string) {
+        return _.upperFirst(string)
+      }
   },
 
   computed: { 
