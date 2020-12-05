@@ -48,7 +48,7 @@
           :key="key"  
           :hours="interval.hours"
           :data="isRestricted(day) ? getRestrictions(day)[interval.data] : interval.data" 
-          :editable="isRestricted(day)" 
+          :editable="! isRestricted(day)" 
           :large-screen="largeScreen"
           v-on:data="interval.data = $event"
           v-on:hours="interval.hours = $event"

@@ -25,7 +25,9 @@
           :key="key"
         >  
           <h4 class="text-info">{{ isRestricted(day) ? getRestrictions(day)[interval.data] : interval.data }}:</h4>
-          <span class="ml-2">{{ interval.hours }}</span> 
+          <span class="ml-2" :class="{'text-danger': ! interval.hours}">{{ 
+            interval.hours ? interval.hours : __('Closed') 
+          }}</span> 
        	</div>
       </div>
    	</div>
