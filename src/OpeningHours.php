@@ -76,6 +76,19 @@ class OpeningHours extends Field
     }
 
     /**
+     * Get the validation rules for this field.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function getRules(NovaRequest $request)
+    {
+        return array_merge_recursive(parent::getRules($request), [
+            $this->attribute => [new Rules\Overlap],
+        ]);
+    }
+
+    /**
      * Prepare the field for JSON serialization.
      *
      * @return array
